@@ -3,6 +3,7 @@ from tensorflow import keras
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from sklearn.manifold import TSNE
 
 
 # Load and preprocess the dataset
@@ -17,20 +18,21 @@ test_labels = keras.utils.to_categorical(test_labels, 10)
 
 # Define the model architecture
 model = keras.Sequential([
-    keras.layers.Dense(284, activation='relu', input_shape=(784,)),
+    keras.layers.Dense(256, activation='relu', input_shape=(784,)),
     keras.layers.Dense(128, activation='relu'),
     keras.layers.Dense(64, activation='relu'),
     keras.layers.Dense(32, activation='relu'),
+    keras.layers.Dense(16, activation='relu'),
     keras.layers.Dense(10, activation='softmax')
 ])
 
 # Compile the model
 loss_function = keras.losses.MeanSquaredError()
-optimizer = keras.optimizers.SGD(learning_rate=0.01)
+optimizer = keras.optimizers.SGD(learning_rate=0.1)
 
 model.compile(optimizer=optimizer, loss=loss_function, metrics=['accuracy'])
 
-# Train the model and capture history
+# Train the model with curriculum learning and capture history
 model.fit(
         train_images, 
         train_labels, 
@@ -48,7 +50,7 @@ model.fit(
 history = model.fit(
     train_images,
     train_labels, 
-    epochs=100,
+    epochs=300,
     batch_size=1000
 )
 
@@ -58,14 +60,12 @@ End of trainng Models
 Now Generating and Saving Plots to Files
 
 '''
-
 # Create the directory if it doesn't exist
-save_dir = "C:\\Users\\james\\Downloads\\MathematicsOfMachineLearningProject\\Graphs"
+save_dir = "C:\\Users\\james\\Downloads\\MathematicsOfMachineLearningProject\\Graphs\\BasicModels"
 
 # Save the model architecture visualization
 save_path_model_png = os.path.join(save_dir, "model_architecture.png")
 
-#Save the model architecture visualization directly to PDF
 try:
     # Debug: Check file path
     print(f"Saving model architecture to: {save_path_model_png}")
@@ -176,6 +176,4 @@ try:
 except Exception as e:
     print(f"Error visualizing neurons: {e}")
 plt.close()
-
-
 

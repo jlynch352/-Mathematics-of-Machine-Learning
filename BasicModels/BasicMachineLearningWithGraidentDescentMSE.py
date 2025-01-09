@@ -2,7 +2,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import numpy as np
 import os
-(train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.fashion_mnist.load_data() # load dataset and split into training and testing sets
+(train_images, train_labels), (test_images, test_labels) = tf.keras.datasets.fashion_mnist.load_data() 
 
 plt.figure(figsize=(10, 2))
 for i in range(5):
@@ -30,7 +30,7 @@ model = tf.keras.models.Sequential([
 ])
 
 loss_function = tf.keras.losses.MeanSquaredError()
-optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.1)
 
 model.compile(
     optimizer=optimizer,
