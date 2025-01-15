@@ -299,7 +299,7 @@ def confussionMatrix(network: NeuralNetwork, data: List[Tuple[np.ndarray, np.nda
         print(f"Error saving training history plot: {e}")
     plt.close()
 
-def findAccuracyAndLoss(network: NeuralNetwork, activationFunction: function,lossFunction: function, trainingData: List[Tuple[np.ndarray, np.ndarray]]):
+def findAccuracyAndLoss(network: NeuralNetwork, data: List[Tuple[np.ndarray, np.ndarray]] ,activationFunction=sigmoid, lossFunction=MeanSquaredError):
     """
     Finds the accuracy of the given model.
 
@@ -311,7 +311,7 @@ def findAccuracyAndLoss(network: NeuralNetwork, activationFunction: function,los
     """
     correct_predictions = 0
     total_loss = 0.0
-    for x, y in trainingData[:1000]:  # Evaluate on a subset for speed
+    for x, y in data:  # Evaluate on a subset for speed
         output, _ = network.feed_forward(x, activationFunction)  # Use relu as defined
         predicted_class = np.argmax(output[-1])
         actual_class = np.argmax(y)
@@ -320,8 +320,8 @@ def findAccuracyAndLoss(network: NeuralNetwork, activationFunction: function,los
         total_loss += lossFunction(y, output[-1])
 
     #Calculates the Models accuracy
-    accuracy = correct_predictions / len(trainingData[:1000])
-    avg_loss = total_loss / len(trainingData[:1000])
+    accuracy = correct_predictions / len(data)
+    avg_loss = total_loss / len(data)
     return accuracy, avg_loss
 
 def main():
@@ -393,7 +393,7 @@ def main():
         lossFunction,
         lossDerivative
     )
-    
+
     # Display some image predictions
     print("\nDisplaying image predictions on the test set:")
     displayingImagePrediction(network, testData)
@@ -404,7 +404,7 @@ def main():
 
     #finds the accuracy and Loss
     print("Finding Accuracy")
-    accuracy, avg_loss = findAccuracyAndLoss(network, activationFunction, lossFunction, testData)
+    accuracy, avg_loss = findAccuracyAndLoss(network, testData, activationFunction, lossFunction)
     print(f"\nAccuracy on the training set subset: {accuracy * 100:.2f}%, Avg Loss: {avg_loss:.4f}")
 if __name__ == '__main__':
     main()
