@@ -50,7 +50,7 @@ model.fit(
 history = model.fit(
     train_images,
     train_labels, 
-    epochs=300,
+    epochs=1000,
     batch_size=1000
 )
 
@@ -60,7 +60,6 @@ End of trainng Models
 Now Generating and Saving Plots to Files
 
 '''
-# Create the directory if it doesn't exist
 save_dir = "C:\\Users\\james\\Downloads\\MathematicsOfMachineLearningProject\\Graphs\\BasicModels"
 
 # Save the model architecture visualization
